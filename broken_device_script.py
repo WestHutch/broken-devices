@@ -109,11 +109,13 @@ def complete_outlook():
     page2.get_by_role("button", name="New mail").first.click()
     #add addresses to the to field
     for x in emailList:
-        page2.get_by_label("To", exact=True).press_sequentially(x)
+        page2.locator("#docking_InitVisiblePart_0 > div > div.QFieH.J8sYv > div:nth-child(1) > div > div:nth-child(3) > div > span > input").press_sequentially(x)
         page2.locator("#FloatingSuggestionsItemId0").filter(has_text=x).click()
         #could have done page2.get_by_label("Last,First - lastf@") but then the user would have to enter the emails in a specific format that gets messy
     #add boss to the cc field
-    page2.get_by_label("Cc", exact=True).press_sequentially(user_credentials[-2])
+    page2.keyboard.press("Tab")
+    page2.keyboard.type(user_credentials[-2])
+    #page2.locator('//*[@id="docking_InitVisiblePart_0"]/div/div[3]/div[1]/div/div[4]/div/span/input').press_sequentially(user_credentials[-2])
     page2.locator("#FloatingSuggestionsItemId0").filter(has_text=user_credentials[-2]).click()
     #fill in body
     page2.get_by_placeholder("Add a subject").fill(f"Damaged Device, {s1.initials}, {todaysDate}")
@@ -145,11 +147,12 @@ def complete_synetic():
     page3.select_option('select#servicetype', 'Warranty service')
     page3.fill('#issue', f'{reason}')
     page3.select_option('select#product', 'On-Site Pickup')
+    page3.select_option('select#location', 'Synetic Technologies')
     page3.select_option('select#delivery_out', 'Delivery')
     
     page3.click('#approve_button')
     #click something here to ensure you waited for it to load
-    page3.get_by_text("You have chosen to ship the device").click()
+    page3.get_by_text("You have chosen to").click()
 
 def complete_worthave():
     page3 = context.new_page()
