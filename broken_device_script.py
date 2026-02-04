@@ -148,7 +148,7 @@ def complete_synetic():
     page3.fill('#issue', f'{reason}')
     page3.select_option('select#product', 'On-Site Pickup')
     page3.select_option('select#location', 'Synetic Technologies')
-    page3.select_option('select#delivery_out', 'Delivery')
+    page3.select_option('select#delivery_out', 'On-Site Delivery')
     
     page3.click('#approve_button')
     #click something here to ensure you waited for it to load
