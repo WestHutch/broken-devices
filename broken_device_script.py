@@ -107,6 +107,7 @@ def complete_outlook():
     except:
         pass
     page2.get_by_role("button", name="New mail").first.click()
+    page2.wait_for_timeout(3000) #bad practice, but it lets you type before the element is accepting text
     #add addresses to the to field
     for x in emailList:
         page2.locator("#docking_InitVisiblePart_0 > div > div.QFieH.J8sYv > div:nth-child(1) > div > div:nth-child(3) > div > span > input").press_sequentially(x)
