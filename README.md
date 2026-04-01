@@ -1,4 +1,4 @@
-## broken-devices
+# broken-devices
 > Python script that automates broken device workflows in a school district, including reporting, email notifications, inventory updates, and repair requests.
 > 
 > ⚠️ Internal tool only: This is designed for use by THS/TMS technicians only.
