@@ -37,7 +37,6 @@ def save_label(path, student):
     root.mainloop()
 
 
-#none of this is my code. i ripped it from some dudes github page (buptxge/print_with_win32.print.py)
 
 def print_label(path):
 #physical dimensions of printers page in tenths of mm
