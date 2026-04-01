@@ -1,66 +1,110 @@
-def get_credentials():
-    try:
-        f = open("userinfo.txt", "r")
-        content = f.readlines()
-        ic_user = content[0].rstrip()
-        ic_pw = content[1].rstrip()
-        initials = content[2].rstrip()
-        destiny_user = content[3].rstrip()
-        destiny_pw = content[4].rstrip()
-        email = content[5].rstrip()
-        email_pw = content[6].rstrip()
-        email_sig = content[7].rstrip()
-        synetic_user = content[8].rstrip()
-        synetic_pw = content[9].rstrip()
-        worthave_user = content[10].rstrip()
-        worthave_pw = content[11].rstrip()
-        num_of_emails = len(content) - 14
-        emails = []
-        for i in range(num_of_emails):
-            emails.append(content[i-5].rstrip())
-        boss_email = content[-2]
-        school = content[-1]
-        f.close()
-        return(ic_user, ic_pw, initials, destiny_user, destiny_pw, email, email_pw, email_sig, synetic_user, synetic_pw, worthave_user, worthave_pw, emails, boss_email, school)
-        
-    except:
-        f = open("userinfo.txt", "wt")
-        ic_user = input("Enter your IC username: ")
-        f.write(ic_user + "\n")
-        ic_pw = input("Enter your IC password: ")
-        f.write(ic_pw + "\n")
-        initials = input("Enter your initials: ")
-        f.write(initials + "\n")
-        destiny_user = input("Enter your destiny username: ")
-        f.write(destiny_user + "\n")
-        destiny_pw = input("Enter your destiny password: ")
-        f.write(destiny_pw + "\n")
-        email = input("Enter your full email address: ")
-        f.write(email + "\n")
-        email_pw = input("Enter your email password: ")
-        f.write(email_pw + "\n")
-        email_sig = input("Enter your email signature (ex: ~Weston): ")
-        f.write(email_sig + "\n")
-        synetic_user = input("Enter your synetic username: ")
-        f.write(synetic_user + "\n")
-        synetic_pw = input("Enter your synetic password: ")
-        f.write(synetic_pw + "\n")
-        worthave_user = input("Enter your Worth Ave username: ")
-        f.write(worthave_user + "\n")
-        worthave_pw = input("Enter your Worth Ave password: ")
-        f.write(worthave_pw + "\n")
+import keyring
+import json
 
-        mail_to = input("Enter the email address of someone you need to email: ")
-        emails = []
-        while mail_to != "s":
-            f.write(mail_to + "\n")
-            emails.append(mail_to)
-            mail_to = input("Enter another email or type s to stop: ")
-        boss_email = input("Enter your boss' email address: ")
-        f.write(boss_email + "\n")
-        school = ""
-        while school != "h" and school != "m":
-            school = input("Enter m for TMS or h for THS: ")
-        f.write(school)
-        f.close()
-        return(ic_user, ic_pw, initials, destiny_user, destiny_pw, email, email_pw, email_sig, synetic_user, synetic_pw, worthave_user, worthave_pw, emails, boss_email, school)
+def set_credentials():
+    ic_user = input("Enter your IC username: ")
+    keyring.set_password("broken_devices", "ic_user", ic_user)
+    ic_pw = input("Enter your IC password: ")
+    keyring.set_password("broken_devices", "ic_pw", ic_pw)
+    destiny_user = input("Enter your destiny username: ")
+    keyring.set_password("broken_devices", "destiny_user", destiny_user)
+    destiny_pw = input("Enter your destiny password: ")
+    keyring.set_password("broken_devices", "destiny_pw", destiny_pw)
+    email = input("Enter your full email address: ")
+    keyring.set_password("broken_devices", "email", email)
+    email_pw = input("Enter your email password: ")
+    keyring.set_password("broken_devices", "email_pw", email_pw)
+    synetic_user = input("Enter your synetic username: ")
+    keyring.set_password("broken_devices", "synetic_user", synetic_user)
+    synetic_pw = input("Enter your synetic password: ")
+    keyring.set_password("broken_devices", "synetic_pw", synetic_pw)
+    worthave_user = input("Enter your Worth Ave username: ")
+    keyring.set_password("broken_devices", "worthave_user", worthave_user)
+    worthave_pw = input("Enter your Worth Ave password: ")
+    keyring.set_password("broken_devices", "worthave_pw", worthave_pw)
+    userCredentials = {
+        "ic_user": ic_user,
+        "ic_pw": ic_pw,
+        "destiny_user": destiny_user,
+        "destiny_pw": destiny_pw,
+        "email": email,
+        "email_pw": email_pw,
+        "synetic_user": synetic_user,
+        "synetic_pw": synetic_pw,
+        "worthave_user": worthave_user,
+        "worthave_pw": worthave_pw
+    }
+    return(userCredentials)
+
+def get_credentials():
+    ic_user = keyring.get_password("broken_devices", "ic_user")
+    ic_pw = keyring.get_password("broken_devices", "ic_pw")
+    destiny_user = keyring.get_password("broken_devices", "destiny_user")
+    destiny_pw = keyring.get_password("broken_devices", "destiny_pw")
+    email = keyring.get_password("broken_devices", "email")
+    email_pw = keyring.get_password("broken_devices", "email_pw")
+    synetic_user = keyring.get_password("broken_devices", "synetic_user")
+    synetic_pw = keyring.get_password("broken_devices", "synetic_pw")
+    worthave_user = keyring.get_password("broken_devices", "worthave_user")
+    worthave_pw = keyring.get_password("broken_devices", "worthave_pw")
+    userCredentials = {
+        "ic_user": ic_user,
+        "ic_pw": ic_pw,
+        "destiny_user": destiny_user,
+        "destiny_pw": destiny_pw,
+        "email": email,
+        "email_pw": email_pw,
+        "synetic_user": synetic_user,
+        "synetic_pw": synetic_pw,
+        "worthave_user": worthave_user,
+        "worthave_pw": worthave_pw
+    }
+    if not all(userCredentials.values()):
+        raise ValueError("Incomplete userCredentials, please run with --reset-credentials arg")
+    return(userCredentials)
+
+def write_email_info():
+    initials = input("Enter your initials: ")
+    email_sig = input("Enter your email signature (ex: ~Weston): ")
+
+    mail_to = input("Enter the email address of someone you need to email: ")
+    emails = []
+    while mail_to != "s":
+        emails.append(mail_to)
+        mail_to = input("Enter another email or type s to stop: ")
+    boss_email = input("Enter your boss' email address: ")
+    
+    school = ""
+    while school != "h" and school != "m":
+        school = input("Enter m for TMS or h for THS: ")
+
+    emailInfo = {
+        "initials": initials,
+        "email_sig": email_sig,
+        "emails": emails,
+        "boss_email": boss_email,
+        "school": school
+    }
+
+    with open("emailinfo.json", "w") as f:
+        json.dump(emailInfo, f, indent=4)
+    return(emailInfo)
+
+def read_email_info():
+    with open("emailinfo.json", "r") as f:
+        emailInfo = json.load(f)
+    return(emailInfo)
+
+def get_user_info():
+    try:
+        userCredentials = get_credentials()
+    except ValueError:
+        userCredentials = set_credentials()
+
+    try:
+        emailInfo = read_email_info()
+    except (FileNotFoundError, json.JSONDecodeError):
+        emailInfo = write_email_info()
+
+    userDict = userCredentials | emailInfo
+    return(userDict)

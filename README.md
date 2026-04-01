@@ -1,17 +1,20 @@
 ## broken-devices
 > Python script that automates broken device workflows in a school district, including reporting, email notifications, inventory updates, and repair requests.
+> 
+> ⚠️ Internal tool only: This is designed for use by THS/TMS technicians only.
+> 
+This script automates the tasks required when receiving a broken device. It prompts the user for information regarding the broken device, then uses playwright to automate browser-based workflows such as reporting the damaged device, checking it in, and submitting a repair order.
 
-This is only to be used by THS/TMS techs to automate the process when receiving a broken MacBook. This script prompts the user for information regarding the broken device, then uses playwright to automate the reporting, check-in, and repair order processes.
+## Requirements
+- Windows 10/11
+- Python 3.10+
 
 ## Installation & Setup
-
-  1. Ensure python is installed on your machine
-  2. Ensure your label printer is set as your default printer
-  3. Download this repo and save it to your desktop
+  1. Ensure your label printer is set as your default printer
+  2. Download this repo and save it to your desktop
 
 ## First Use
-
-  1. In the command prompt, naviate to where you have this repo saved
+  1. In the command prompt, navigate to where you have this repo saved
 
   ```
   cd Desktop\broken_devices-main
@@ -23,8 +26,49 @@ This is only to be used by THS/TMS techs to automate the process when receiving 
   py -m venv venv
   venv\Scripts\activate.bat
   pip install -r requirements.txt
+  playwright install
   ```
 
+  3. Run the main script
+
+  ```
+  py broken_device_script.py
+  ```
+
+  4. Upon first running the program, you will be prompted to enter your credentials for each step. After that, the program will save them to Windows Credential Locker using keyring. If you entered these incorrectly, you can simply edit them by running the program with the `--reset-credentials` argument.
+
+```
+py broken_device_script.py --reset-credentials
+```
+
+  ## Quick Start (Subsequent Uses)
+
+  After your first successful use of the program, you can run it again with the following:
+
+  ```
+  cd Desktop\broken_devices-main
+  venv\Scripts\activate.bat
+  py broken_device_script.py
+  ```
+
+  This will change your directory to the project folder, start the virtual environment, and run the script.
+
+## CLI Arguments
+To reset sensitive information (usernames/passwords), use the `--reset-credentials` arg:
+
+```
+py broken_device_script.py --reset-credentials
+```
+
+To reset non-confidential information such as your mailing list, initials, and school, use `--reset-email-info`.
+
+```
+py broken_device_script.py --reset-email-info
+```
+
+Alternatively, you can edit this in the `emailinfo.json` file.
+
+## Troubleshooting
 ### pip not recognized as a command
 If pip is not being recognized as a command, you may need to add a couple paths to your system's PATH environment variable  
   * Search for "environment variables" in the Windows search bar and open the first result
@@ -44,39 +88,4 @@ If your system is blocking the execution of the venv exe, you'll need to do the 
   * Under Exclusions, click "Add or remove exclusions"
   * Add the path to your Python folder (ex: C:\Users\yourname\AppData\Local\Programs\Python)
   * Add the path to the project folder (ex: C:\Users\yourname\Desktop\broken_devices)
-       
-If it's your first time using playwright, you'll also need to run the following:
 
-  ```
-  playwright install
-  ```
-
-  3. Run the main script
-
-  ```
-  py broken_device_script.py
-  ```
-
-  4. Upon first running the program, you will be prompted to enter your credentials for each step. After that, the program will never ask you again. If you entered these incorrectly, you can simply edit them in the userinfo.txt file that was created, or delete this file to be prompted again the next run.
-
-  ## Subsequent Uses
-
-  After your first successful use of the program, you can run it again by doing the following:
-
-  1. In the terminal, navigate to this repo
-
-  ```
-  cd Desktop\broken_devices-main
-  ```
-
-  2. Start the virtual environment
-
-  ```
-  venv\Scripts\activate.bat
-  ```
-
-  3. Run the script
-
-  ```
-  py broken_device_script.py
-  ```

@@ -1,3 +1,4 @@
 pillow==10.4.0
 playwright
 pywin32==307
+keyring==25.7.0
