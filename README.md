@@ -3,7 +3,11 @@
 > 
 > ⚠️ Internal tool only: This is designed for use by THS/TMS technicians only.
 > 
-This script automates the tasks required when receiving a broken device. It prompts the user for information regarding the broken device, then uses playwright to automate browser-based workflows such as reporting the damaged device, checking it in, and submitting a repair order.
+This script automates the tasks required when receiving a broken device. It prompts the user for information regarding the broken device, then uses playwright to automate browser-based workflows such as reporting the damaged device, checking it in, and submitting a repair order. By using this script, our broken device reporting has sped up from ~3 minutes to ~1.5 minutes.
+
+## Demo
+
+![Screenshot](./screenshots/full_run.gif)
 
 ## Requirements
 - Windows 10/11
